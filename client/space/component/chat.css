@@ -1,0 +1,444 @@
+.chatarea{
+    position: absolute;
+    width: 25vw;
+    height: 80vh;
+    background-color: #fff1ff;
+    min-height: 80vh;
+    overflow-y: scroll;
+    animation: home 0.5s 0s 1 ease;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chatarea::-webkit-scrollbar{
+    display: none;
+}
+.allcontacts{
+    display: none;
+    margin: 0.5vh 0.5vh;
+    height: 99vh;
+    width: 23vw;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #fff1ff;
+
+}
+
+.contacthold{
+    list-style: none;
+    width: 100%;
+    height: 3.5vw;
+    background-color: purple;
+   
+    margin: 0.3vw;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px 0px black;
+    box-sizing: border-box;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.contactname{
+    background-color: purple;
+    color: #fff;
+    font-size: 1.5vw;
+    font-family: nunito;
+    font-weight: 500;
+    width: 17vw;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.contacthold:hover{
+    transform: scale(0.99);
+}
+
+
+
+.profilehold{
+    width: 3vw;
+    height: 3vw;
+    background-color: #fff;
+    border-radius: 50%;
+    margin-right: 1vw;
+}
+
+.chathere {
+    width: 56vw;
+    height: 80vh;
+    background-color: #fff;
+    overflow: hidden;
+  
+
+}
+.chatheremob{
+    width: 25vw;
+    height: 80vh;
+    background-color: #fff1ff;
+    overflow: hidden;
+    position: absolute;
+    background-image: url('chat.gif');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center
+}
+
+.chatscont{
+    
+    /* display: none;
+    width: 100%; */
+    width: 100%;
+    height: 65vh;
+    min-height: 65vh;
+    overflow-y: scroll;
+    /* background-image: url('chat.gif'); */
+   
+
+}
+.chatscont::-webkit-scrollbar{
+    display: none;
+}
+
+.react-emoji{
+    max-width: 92%;
+    margin-left: 4px;
+    position: relative;
+    left: -5px;
+}
+.react-input-emoji--container{
+    margin-left: 4px;
+}
+
+.react-input-emoji--input{
+    min-height: 25px;
+    font-size: 1.5vw;
+    max-width: 47vw;
+    /* margin-bottom: 0.5vw; */
+}
+
+.input-send-cont{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.backbtn{
+    display: flex;
+    margin-right: 1vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.send-btn{
+    height: 2.2vw;
+    font-size: 1vw;
+    border-radius: 20px;
+    border: 1px dashed black;
+    background-color: transparent;
+    color: black;
+    box-sizing: border-box;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    width: 4.5vw;
+    cursor: pointer;
+    transition-duration: 0.2s;
+
+}
+.send-btn:hover{
+    transform: scale(1.1);
+    transition-duration: 0.2s;
+}
+
+.to_name{
+    background-color: purple;
+    height: 3vw;
+    margin: 0.5vw;
+    color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 0 1vw;
+    font-size: 1.5vw;
+    font-weight: 600;
+    font-family: 'Nunito';
+    border-radius: 10px;
+    box-shadow: 1px 1.5px 8px black;
+    position: relative;
+    /* top: -10vw; */
+    transition-duration:  0.2s;
+    /* display: none; */
+}
+.msgsent{
+    background-color: #f2befa;
+    max-width: 45%;
+    height: auto;
+    min-height: 2vw;
+    width: fit-content;
+    font-size: 1.5vw;
+    font-family: 'Nunito';
+    color: purple;
+    box-sizing: border-box;
+    padding: 0 10px;
+    /* display: flex; */
+    align-items: center;
+    border-radius: 1vw 0vw 1vw 1vw;
+   word-wrap: break-word;
+    position: relative;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.msgreceived{
+    background-color: purple;
+    color: #fff;
+    font-size: 1.5vw;
+    font-family: 'Nunito';
+    margin-right: auto;
+    max-width: 45%;
+    width: fit-content;
+    padding: 0 10px;
+    border-radius: 0vw 1vw 1vw;
+    margin-left: 10px;
+    height: auto;
+    min-height: 2vw;
+    word-wrap: break-word;
+}
+
+@media screen and (min-width: 300px) {
+    @media screen and (max-width: 600px) {
+
+        .chatarea{
+            width: 100vw;
+        }
+
+        .allcontacts{
+            top: 30vh;
+            position: absolute;
+            left: 0;
+            width: 98vw;
+            height: 65vh;
+            overflow: scroll;
+            padding: 0;
+            border-radius: 0;
+            /* background-image: url(followers.jpeg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position-y: center; */
+        }
+        .allcontacts::-webkit-scrollbar{
+            display: none;
+        }
+        .contacthold{
+            visibility: visible;  
+              height: 11vw;
+              border-radius: 0;
+              margin: 0.4vw;
+        }
+        /* .allcontacts:hover{
+            top: 60vh;
+            left: 0;
+            width: 65vw;
+            height: 25vh;
+
+            .contacthold{
+                visibility: visible;
+                margin: 1.3vw;
+                height: 9.5vw;justify-content: space-between;
+            }
+        } */
+        .contactname{
+            font-size: 5.2vw;
+            width: 85vw;
+        }
+        .profilehold{
+            width: 10vw;
+            height: 10vw;
+        }
+
+        .chathere{
+            width: 100vw;
+            background: url();
+            z-index: -2;
+        }
+        .chatheremob{
+            width: 100vw;
+            height: 30vh;
+            background-color: #fff;
+            overflow: hidden;
+            background-image: url('chat.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            /* display:none; */
+        }
+        .chatscont{
+            height: calc(87.5vh - 40px);
+        }
+        .to_name{
+            padding: 0 4vw;
+            font-size: 5.5vw;
+            height: 10vw;
+            margin: 1vw 1vw;
+            /* margin-top: 1vw; */
+        }
+        .react-emoji{
+            left: 0;
+        }
+
+        .react-emoji-picker--wrapper{
+            top: -60vh;
+            left: 1.5vw;
+        }
+        .react-input-emoji--input{
+            font-size: 4.5vw;
+        }
+        .react-input-emoji--container {
+            max-height: 45px;
+            overflow: scroll;
+        }
+        .msgsent{
+            font-size: 4.5vw;
+            min-height: 5vw;
+        }
+        .msgreceived{
+            font-size: 4.5vw;
+            min-height: 5vw;
+        }
+        .send-btn{
+            width: 20.5vw;
+            height: 7.5vw;
+        }
+
+    }}
+
+    @media screen and (min-width:1025px) {
+        @media screen and (max-width:1439px) {
+            .react-input-emoji--input{
+                font-size: 2vw;
+            }
+            .send-btn{
+                width: 7vw;
+            }
+            .to_name{
+               box-shadow:  0px 0.5px 3px black;
+            }
+            .contacthold{
+                box-shadow: 0px 1px 4px 0px black;
+            }
+            .allcontacts{
+                width: 30vw;
+            }
+            .contactname{
+                width: 20vw;
+            }
+        }}
+
+        @media screen and (min-width:760px) {
+            @media screen and (max-width:1024px) {
+                .chatarea{
+                    width: 100vw;
+                }
+                .chathere{
+                    width: 100vw;
+                    background: url();
+                    z-index: -2;
+                }
+                .chatheremob{
+                    width: 100vw;
+                    height: 30vh;
+                    background-color: #fff;
+                    overflow: hidden;
+                    background-image: url('chat.gif');
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    /* display:none; */
+                }
+                .allcontacts{
+                    top: 30vh;
+                    position: absolute;
+                    left: 0;
+                    width: 98vw;
+                    height: 65vh;
+                    overflow: scroll;
+                    padding: 0;
+                    border-radius: 0;
+                }
+                .allcontacts::-webkit-scrollbar{
+                    display: none;
+                }
+                .send-btn{
+                    width: 8.5vw;
+                }
+                .contacthold{
+                    width: 95%;
+                    height: 8.5vw;
+                    justify-content: space-between;
+                }
+                .profilehold{
+                    width: 8vw;
+                    height: 8vw;
+                }
+                .contactname{
+                    width: 90vw;
+                    font-size: 3.5vw;
+                }
+                .react-emoji{
+                    left: 0;
+                }
+        
+                .react-emoji-picker--wrapper{
+                    top: -60vh;
+                    left: 1.5vw;
+                }
+                .react-input-emoji--input{
+                    font-size: 3.5vw;
+                    height: 5vw;
+                    box-shadow: 1px 1px 3px black;
+                    max-width: 80vw;
+                }
+                .react-input-emoji--container {
+                    max-height: 100px;
+                    overflow: scroll;
+                }
+                .react-input-emoji--container::-webkit-scrollbar{
+                    display: none;
+                }
+
+                .input-send-cont{
+                    top: -4vw;
+                    position: relative;
+                }
+                .send-btn{
+                    width: 10.5vw;
+                }
+                .to_name{
+                    font-size: 3.5vw;
+                    height: 6vw;
+                }
+                .chatscont{
+                    height: calc(87.5vh - 45px);
+                }
+                .msgsent{
+                    font-size: 2.5vw;
+
+                }
+                .msgreceived{
+                    font-size: 2.5vw;
+                }
+                .react-input-emoji--button svg {
+                    fill: #858585;
+                    width: 4vw;
+                    height: 5vw;
+                }
+            }}

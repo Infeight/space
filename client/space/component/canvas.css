@@ -1,0 +1,36 @@
+  #testbox{
+      position: relative;
+    background-color: rgb(86 86 86 / 6%);
+    width: 10vw;
+    height: 10vw;
+    top: 22vw;
+    left: 63vw;
+    z-index: 0;
+    border: 1px dashed black;
+    color: white;
+  }
+
+  #space_1{
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    left: 0vw;
+    
+  }
+  #chat{
+    position: absolute;
+    z-index: 4;
+  }
+
+  #leave{
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 94%;
+    background-color: red;
+    border: 0;
+    box-shadow: 1px 1px 1px black;
+    color: wheat;
+    font-size: 1.2vw;
+    cursor: pointer;
+  }
