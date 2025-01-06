@@ -22,7 +22,7 @@ const Canvas = (props) => {
    const canvas = useRef();
 
    useEffect(()=>{
-        socket.current = io('http://localhost:5001')
+        socket.current = io('https://spaceserver-05iz.onrender.com')
         socket.current.emit('updateUsers')
    },[])
 
@@ -128,7 +128,7 @@ const Canvas = (props) => {
           password:'tarun7'
         }
 
-   const createtest = fetch('http://localhost:5001/createtest',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(testdet) })
+   const createtest = fetch('https://spaceserver-05iz.onrender.com/createtest',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(testdet) })
        createtest.then(response=>response.json()).then((data)=>{
        const useridcont = document.createElement('div')
        useridcont.id = 'useridcont'

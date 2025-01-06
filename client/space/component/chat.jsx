@@ -38,7 +38,7 @@ const Chat = (props) => {
               }
 
         useEffect(()=>{
-          socket.current = io('http://localhost:5001')
+          socket.current = io('https://spaceserver-05iz.onrender.com')
           // socket.current.emit('add-user', userid);
          
       //  getusers();
@@ -80,7 +80,7 @@ const Chat = (props) => {
               message:msg.caption
             })
           
-          fetch('http://localhost:5001/sendmsg', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(sendmsg) })
+          fetch('https://spaceserver-05iz.onrender.com/sendmsg', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(sendmsg) })
           setCurrentmsg({message:msg.caption})
           document.querySelector('.react-input-emoji--input').innerText="";
           
@@ -96,7 +96,7 @@ const Chat = (props) => {
              }
              
            let obj;
-               const response = fetch('http://localhost:5001/getmsg', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(getmsg) })
+               const response = fetch('https://spaceserver-05iz.onrender.com/getmsg', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(getmsg) })
                response.then(res => res.json())
              .then(data => {
           
