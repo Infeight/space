@@ -18,7 +18,7 @@ const server = app.listen(port,()=>{
 
 const io = socket(server,{
   cors:{
-    origin:'https://spacefront.onrender.com',
+    origin:'http://localhost:5173',
     Credential:true
   }
 })
@@ -62,6 +62,9 @@ console.log('socket is working')
     socket.to(senduser).emit("recievemsg",msgdata.msg)
   }
 })
+
+console.log(usersarr)
+
 })
 
 

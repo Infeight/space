@@ -14,7 +14,7 @@ const Home = () => {
   },[])
 
   const getusers = async()=>{
-   let get_users =  await fetch('https://spaceserver-05iz.onrender.com/getusers',{headers:{accept:'application/json'}})
+   let get_users =  await fetch('http://localhost:5001/getusers',{headers:{accept:'application/json'}})
    let get_users1 = await get_users.json();
   //  setUsers(get_users1);
   //  console.log(get_users1)

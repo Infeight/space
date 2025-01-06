@@ -33,7 +33,7 @@ const Login = () => {
 
   useEffect(()=>{
     alllogins()
-    socket.current = io('https://spaceserver-05iz.onrender.com')
+    socket.current = io('http://localhost:5001')
          
   },[])
 
@@ -103,7 +103,7 @@ const Login = () => {
 
   const alllogins = async()=>{
    try{
-    const alllogins1 = await fetch('https://spaceserver-05iz.onrender.com/getalllogin',{headers:{accept:'application/json'}})
+    const alllogins1 = await fetch('http://localhost:5001/getalllogin',{headers:{accept:'application/json'}})
 
    const alllogins11 = await alllogins1.json();
    alllogins11.map(logindet=>{
@@ -138,7 +138,7 @@ const Login = () => {
       username:user.username,
       password: user.password
     }
-  const alllogin = fetch('https://spaceserver-05iz.onrender.com/login',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(userdet) })
+  const alllogin = fetch('http://localhost:5001/login',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(userdet) })
 
   alllogin.then(response=>response.json()).then(data=>{
     console.log(data)
@@ -197,7 +197,7 @@ const Login = () => {
       document.getElementById('logo').style.display = 'none'
       document.getElementById('newusercont').style.display = 'flex'
       console.log(signup)
-      await  fetch('https://spaceserver-05iz.onrender.com/signup', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(signup) })
+      await  fetch('http://localhost:5001/signup', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(signup) })
      
     }
     }
