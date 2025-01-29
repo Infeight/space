@@ -37,6 +37,7 @@ const Canvas = (props) => {
            
       const onlineuser = Users[id];
          if(!frontEnd[id]){
+          console.log(frontEnd[id])
           frontEnd[id] =new Character (onlineuser.x, onlineuser.y, 0 ,0 , onlineuser.curuserid, onlineuser.color)
           
          }
