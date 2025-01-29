@@ -2,14 +2,15 @@ import React from 'react'
 import { useRef,useEffect,useState } from 'react'
 import Chat from './chat'
 import './canvas.css'
-
+import socket from './socketfront'
 import { io } from 'socket.io-client'
 
 
 const Canvas = (props) => {
-  const socket = useRef();
   
-    const [users,setUsers] = useState([]);
+  const canvas = useRef();
+  
+    const [frontEndUsers,setfrontEndUsers] = useState([]);
     const [toid,setToid] = useState('');
     const [toname,setToname] = ('');
    const [position,setPosition] = useState({
@@ -19,28 +20,54 @@ const Canvas = (props) => {
 
     const userid = localStorage.getItem('current-id1');
 
-   const canvas = useRef();
+  //  const canvas = document.getElementById('canvas');
 
    useEffect(()=>{
-        socket.current = io('https://spaceserver-05iz.onrender.com')
-        socket.current.emit('updateUsers')
+                socket.emit('updateUsers')
    },[])
 
 
- useEffect(()=>{  // if there is current active socket and a recievemsg is called then Arraive message State is updated//
-              if(socket.current){
+   let frontEnd = {};
+
+
+
+  socket.on("updateUsers1",(Users)=>{
+    
+    for(const id in Users){
            
-                socket.current.on("updateUsers1",(User)=>{
-                   User.map(person=>{
-                       new Character(person.x, person.y, 0, 0, person.userid, person.color);
-                   })
-                })
-              }
-            })
+      const onlineuser = Users[id];
+         if(!frontEnd[id]){
+          frontEnd[id] =new Character (onlineuser.x, onlineuser.y, 0 ,0 , onlineuser.curuserid, onlineuser.color)
+          
+         }
+         else{
+          frontEnd[id].x = onlineuser.x
+          frontEnd[id].y = onlineuser.y
+          
+         }
+    }   
+    for(const id in frontEnd){
+      if(!Users[id]){
+        delete frontEnd[id];
+      }
+    }
+
+
+  
+    // socket.off("updateUsers1");
+  })
+
+
+   
+  
+
+          
+        
 
    const leave = ()=>{
+    delete frontEnd[socket.id]
+     socket.emit('removeUser',socket.id)
     
-     socket.current.emit('removeUser',userid)
    }
    
    function Character(x,y,dx,dy,id,color){ 
@@ -59,67 +86,77 @@ const Canvas = (props) => {
          console.log(this.x,this.y)
     })
 
+    this.talk = chars =>{
+      for(let i=0;i<chars.length;i++){
+        if(this === chars[i]) continue;
 
-    addEventListener('keydown',(e)=>{
-      if(e.key=='d'){
-          ctx.clearRect(0,0,canvas.current.width,canvas.current.height)
-      vx+=10;
-        ctx.fillRect(x+vx,y+vy,40,40)
-      this.talk(vx,vy);
+        if(
+          this.x + 40 >= chars[i].x &&
+          this.x<= chars[i].x+ 40 &&
+          this.y+ 40 >= chars[i].y &&
+          this.y<= chars[i].y+40
+        ){
+          this.color = 'black'
+          chars[i].color = 'black'
+        }
       }
-  
-      if(e.key=='a'){
-          ctx.clearRect(0,0,canvas.current.width,canvas.current.height)
-      vx+=-10;
-        ctx.fillRect(x+vx,y+vy,40,40)
-      this.talk(vx,vy);
     }
-  
-      if(e.key=='w'){
-          ctx.clearRect(0,0,canvas.current.width,canvas.current.height)
-      vy+=-10;
-        ctx.fillRect(x+vx,y+vy,40,40)
-      this.talk(vx,vy);
-      }
-  
-      if(e.key=='s'){
-          ctx.clearRect(0,0,canvas.current.width,canvas.current.height)
-      vy+=10;
-        ctx.fillRect(x+vx,y+vy,40,40)
-      this.talk(vx,vy);
-      }
-    })
-
-    this.talk = function(vx,vy){
-      if(this.x+vx >= (boxdet.x-10-(boxdet.width/2))   && this.y+vy >= (boxdet.y)){
-            document.getElementById('chat').style.display = 'initial'
-      }
-     if(this.x+vx >= (boxdet.x-120 + boxdet.width ) || this.y+vy >= (boxdet.y + boxdet.height )){
-          document.getElementById('chat').style.display = 'none'
-      }
-      if(this.x+vx < (boxdet.x-10-(boxdet.width/2))   || this.y+vy < (boxdet.y)){
-          document.getElementById('chat').style.display = 'none'
- }
-
-    }
-
 
     this.draw = function(){
       const curcanvas = canvas.current
       ctx = curcanvas.getContext('2d')
      ctx.fillStyle = this.color;
+     ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
      ctx.fillRect(this.x+this.dx,this.y+this.dy,40,40)
     }
-    this.draw();
+
     }
 
 
    let ctx;let vx=0; let vy=0;
 
-    //  {users.map(user=>{
-    //   let x= Math.random() * window.innerWidth; let y= Math.random() *window.innerHeight ;let vx=0; let vy=0;
-    //  new Character(x,y,vx,vy,userid);
-    //    })}
+ 
+   window.addEventListener('keydown',(e)=>{
+
+   if(!frontEnd[socket.id]){return}
+
+   switch(e.key){
+    case 'd' || 'D':
+      // frontEnd[socket.id].x+=10;
+      socket.emit('keydown','keyD')
+      break
+    case 'a' || 'A':
+      // frontEnd[socket.id].x-=10;
+      socket.emit('keydown','keyA')
+      break
+    case 's' || 'S':
+      // frontEnd[socket.id].y+=10;
+      socket.emit('keydown','keyS')
+      break
+    case 'w' || 'W':
+      // frontEnd[socket.id].y-=10;
+      socket.emit('keydown','keyW')
+      break      
+   }
+  
+  })
+
+
+  let animationId;
+  function animate(){
+animationId = requestAnimationFrame(animate)
+// ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
+
+ for(const id in frontEnd){
+     const user = frontEnd[id]
+     user.draw()
+     user.talk()
+ }
+
+
+  }
+  animate();
+
        
        
        const createtest = async()=>{

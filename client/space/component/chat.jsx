@@ -8,7 +8,7 @@ import InputEmoji from "react-input-emoji";
 
 import { io } from 'socket.io-client'
 
-const Chat = (props) => {
+const Chat1 = (props) => {
 
       const socket = useRef();
       const scrollref = useRef();
@@ -38,11 +38,10 @@ const Chat = (props) => {
               }
 
         useEffect(()=>{
-          socket.current = io('http://localhost:5001')
-          // socket.current.emit('add-user', userid);
-         
-      //  getusers();
-        },[userid])
+                //  socket.current = io('ws://localhost:5004', {
+                //      transports: ['websocket'],
+                //  });
+        },[])
 
         // useEffect(()=>{     //yet to figure out//
         //     logins()
@@ -178,4 +177,4 @@ const Chat = (props) => {
   )
 }
 
-export default Chat
+export default Chat1

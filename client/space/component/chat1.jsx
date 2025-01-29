@@ -36,12 +36,12 @@ const Chat = () => {
         })
       }
    
- useEffect(()=>{
-   if(userid){
-    socket.current = io('http://localhost:5001')
-    socket.current.emit('add-user',userid)
-   }
- },[userid])     
+//  useEffect(()=>{
+//    if(userid){
+//     socket.current = io('http://localhost:5001')
+//     socket.current.emit('add-user',userid)
+//    }
+//  },[userid])     
 
 // useEffect(()=>{
 //     logins()

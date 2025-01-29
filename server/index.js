@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
-const socket =require('socket.io')
+const http = require('http');
+const { Server } = require('socket.io');
+
+const server = http.createServer(app);
+
+
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const login = require('./mongodb')
@@ -11,48 +16,68 @@ const port  = 5001;
 
 app.use(cors());
 app.use(bodyParser.json())
-const server = app.listen(port,()=>{
+
+server.listen(port,()=>{
     console.log(`Listening on ${port} `);
 })
 
-
-const io = socket(server,{
-  cors:{
-    origin:'http://localhost:5173',
-    Credential:true
-  }
+const io = new Server(server,{
+  cors: {
+    origin: "http://localhost:5173", // Replace with your client URL
+    methods: ["GET", "POST"],
+},
 })
 // const io = require('socket.io')(server)
 global.onlineusers = new Map();
+let onlineobj = {}
 let usersarr = [];
+let cursuseridstore = ''
 
 io.on('connection',(socket)=>{
-console.log('socket is working')
+
+  // const existingSockets = Array.from(io.sockets.sockets.keys());
+  // if (existingSockets.length > 1) {
+  //   console.log('Closing duplicate connection:', socket.id);
+  //   socket.disconnect();
+  // }
+
+  
+console.log('socket is working' + socket.id)
+
  global.chatSocket = socket;
  socket.on('add-user',(curuserid)=>{
+ cursuseridstore  = curuserid;
    onlineusers.set(curuserid,socket.id)
-    usersarr.push({
-      userid: curuserid,
-      socket:socket.id,
-      x: Math.random()* 500,
-      y: Math.random()* 500,
-      color: `hsl(${Math.random()*360},100%,50%)`
-    })
+
+  onlineobj[socket.id] = {
+    curuserid: curuserid,
+    x: Math.random()* 500,
+    y: Math.random()* 500,
+    color: `hsl(${Math.random()*360},100%,50%)`
+  }
+
+  console.log(onlineobj)
+
+ 
+  
  })
 
  socket.on('updateUsers',()=>{
-  socket.emit("updateUsers1",(usersarr));
+  socket.emit("updateUsers1",(onlineobj));
  })
 
  socket.on('removeUser',(userid)=>{
-  usersarr.pop( Array.prototype.filter(function(user){
-        user.socket == socket.id 
-   }))
+  // usersarr.pop( Array.prototype.filter(function(user){
+  //       user.socket == socket.id 
+  //  }))
   onlineusers.delete(userid)
+
+  delete onlineobj[userid];
  })
 
  socket.on('disconnect',(reason)=>{
    console.log(reason)
+   delete onlineobj[socket.id];
  })
 
  socket.on('sendmsg',(msgdata)=>{
@@ -63,9 +88,34 @@ console.log('socket is working')
   }
 })
 
-console.log(usersarr)
+//  usersarr.filter((user)=>user.socket == socket.id)
+socket.on('keydown',(keycode)=>{
+    switch(keycode){
+
+      case 'keyW':
+       
+        onlineobj[socket.id].y-=10;
+        break
+
+      case 'keyA':
+        onlineobj[socket.id].x-=10;
+        break
+
+      case 'keyD':
+      onlineobj[socket.id].x+=10;
+        break
+
+      case 'keyS':
+        onlineobj[socket.id].y+=10;
+        break      
+    }
+})
 
 })
+
+setInterval(()=>{
+  io.emit("updateUsers1",onlineobj);
+},15)
 
 
 app.get('/',(req,res)=>{

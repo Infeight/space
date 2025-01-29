@@ -3,6 +3,7 @@ import './login.css'
 import { Link } from 'react-router-dom';
 import { useState,useEffect,useRef } from 'react';
 import { Navigate } from 'react-router-dom';
+import socket from './socketfront';
 import { io } from 'socket.io-client'
 
 
@@ -10,7 +11,7 @@ import { io } from 'socket.io-client'
 
 const Login = () => {
 
-        const socket = useRef();
+        // const socket = useRef();
   
  
   let [user,setUser] = useState({
@@ -32,16 +33,18 @@ const Login = () => {
 
 
   useEffect(()=>{
-    alllogins()
-    socket.current = io('http://localhost:5001')
-         
-  },[])
+      
+  //   socket.current = io('ws://localhost:5001', {
+  //     transports: ['websocket'],
+  // });
+              alllogins();
+   },[])
 
   if(showinp==true){
     document.getElementById('input-cont').style.display = 'flex'
     document.getElementById('loading').style.display='none'
     document.getElementById('notfound').style.display = 'none'
-    // clearInterval(interval)
+  
   }
 
   // const setCookie = (name, value, days) => {
@@ -143,9 +146,9 @@ const Login = () => {
   alllogin.then(response=>response.json()).then(data=>{
     console.log(data)
     if(data.loggedin!=null && data.loggedin.password === user.password){
-  
-      socket.current.emit('add-user', data.loggedin._id);
-
+      socket.emit('add-user',data.loggedin._id);
+      
+     
       localStorage.setItem('current-users',user.username)
       localStorage.setItem('current-users-pass',user.password)
       localStorage.setItem('current-id1', data.loggedin._id)
