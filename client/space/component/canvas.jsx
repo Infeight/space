@@ -150,7 +150,7 @@ animationId = requestAnimationFrame(animate)
  for(const id in frontEnd){
      const user = frontEnd[id]
      user.draw()
-     user.talk(frontEnd)
+    //  user.talk(frontEnd)
  }
 
 
