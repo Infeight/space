@@ -87,7 +87,7 @@ const Canvas = (props) => {
     })
 
     this.talk = chars =>{
-      for(let i=0;i<chars.length;i++){
+      for(const i in chars){
         if(this === chars[i]) continue;
 
         if(
@@ -150,7 +150,7 @@ animationId = requestAnimationFrame(animate)
  for(const id in frontEnd){
      const user = frontEnd[id]
      user.draw()
-     user.talk()
+     user.talk(frontEnd)
  }
 
 
