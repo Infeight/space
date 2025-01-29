@@ -11,6 +11,7 @@ const Canvas = (props) => {
   const canvas = useRef();
   
     const [frontEndUsers,setfrontEndUsers] = useState([]);
+    const [frontEnd, setFrontEnd] = useState({});
     const [toid,setToid] = useState('');
     const [toname,setToname] = ('');
    const [position,setPosition] = useState({
@@ -27,39 +28,77 @@ const Canvas = (props) => {
    },[])
 
 
-   let frontEnd = {};
+  //  let frontEnd = {};
 
 
 
-  socket.on("updateUsers1",(Users)=>{
-    // console.log(Users)
-    for(const id in Users){
+  // socket.on("updateUsers1",(Users)=>{
+  //   // console.log(Users)
+  //   for(const id in Users){
            
-      const onlineuser = Users[id];
-         if(!frontEnd.hasOwnProperty(id)){
+  //     const onlineuser = Users[id];
+  //        if(!(id in frontEnd)){
          
-          frontEnd[id] =new Character (onlineuser.x, onlineuser.y, 0 ,0 , onlineuser.curuserid, onlineuser.color)
+  //         frontEnd[id] =new Character (onlineuser.x, onlineuser.y, 0 ,0 , onlineuser.curuserid, onlineuser.color)
           
-         }
-         else{
-         console.log('jo')
-          frontEnd[id].x = onlineuser.x
-          frontEnd[id].y = onlineuser.y
+  //        }
+  //        else{
+  //         frontEnd[id].x = onlineuser.x
+  //         frontEnd[id].y = onlineuser.y
           
-         }
-    }   
+  //        }
+  //   }   
  
-    for(const id in frontEnd){
-      if(!Users[id]){
-        delete frontEnd[id];
-      }
-    }
+  //   for(const id in frontEnd){
+  //     if(!Users[id]){
+  //       delete frontEnd[id];
+  //     }
+  //   }
 
 
   
-    // socket.off("updateUsers1");
-  })
+  //   // socket.off("updateUsers1");
+  // })
 
+  useEffect(() => {
+    socket.on("updateUsers1", (Users) => {
+      setFrontEnd((prevFrontEnd) => {
+        const newFrontEnd = { ...prevFrontEnd };
+  
+        // Add or update characters
+        for (const id in Users) {
+          const onlineUser = Users[id];
+  
+          if (!(id in newFrontEnd)) {
+            newFrontEnd[id] = new Character(
+              onlineUser.x,
+              onlineUser.y,
+              0,
+              0,
+              onlineUser.curuserid,
+              onlineUser.color
+            );
+          } else {
+            newFrontEnd[id].x = onlineUser.x;
+            newFrontEnd[id].y = onlineUser.y;
+          }
+        }
+  
+        // Remove disconnected users
+        for (const id in newFrontEnd) {
+          if (!Users[id]) {
+            delete newFrontEnd[id];
+          }
+        }
+  
+        return newFrontEnd;
+      });
+    });
+  
+    return () => {
+      socket.off("updateUsers1");
+    };
+  }, []);
 
    
   
