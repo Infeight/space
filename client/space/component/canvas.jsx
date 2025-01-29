@@ -32,26 +32,28 @@ const Canvas = (props) => {
 
 
   socket.on("updateUsers1",(Users)=>{
-    
+    console.log(Users)
     for(const id in Users){
            
       const onlineuser = Users[id];
          if(!frontEnd[id]){
-          console.log(frontEnd[id])
+         
           frontEnd[id] =new Character (onlineuser.x, onlineuser.y, 0 ,0 , onlineuser.curuserid, onlineuser.color)
           
          }
          else{
+         
           frontEnd[id].x = onlineuser.x
           frontEnd[id].y = onlineuser.y
           
          }
     }   
-    for(const id in frontEnd){
-      if(!Users[id]){
-        delete frontEnd[id];
-      }
-    }
+ 
+    // for(const id in frontEnd){
+    //   if(!Users[id]){
+    //     delete frontEnd[id];
+    //   }
+    // }
 
 
   
