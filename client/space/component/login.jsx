@@ -146,7 +146,7 @@ const Login = () => {
   alllogin.then(response=>response.json()).then(data=>{
     console.log(data)
     if(data.loggedin!=null && data.loggedin.password === user.password){
-      socket.emit('add-user',data.loggedin._id);
+      socket.emit('add-user',{id:data.loggedin._id, name:user.username});
       
      
       localStorage.setItem('current-users',user.username)

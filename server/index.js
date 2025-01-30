@@ -45,12 +45,13 @@ io.on('connection',(socket)=>{
 console.log('socket is working' + socket.id)
 
  global.chatSocket = socket;
- socket.on('add-user',(curuserid)=>{
- cursuseridstore  = curuserid;
-   onlineusers.set(curuserid,socket.id)
+ socket.on('add-user',(curuserdet)=>{
+ cursuseridstore  = curuserdet.id;
+   onlineusers.set(curuserdet.id,socket.id)
 
   onlineobj[socket.id] = {
-    curuserid: curuserid,
+    curuserid: curuserdet.id,
+    name: curuserdet.name,
     x: Math.random()* 500,
     y: Math.random()* 500,
     color: `hsl(${Math.random()*360},100%,50%)`
@@ -82,7 +83,7 @@ console.log('socket is working' + socket.id)
 
  socket.on('sendmsg',(msgdata)=>{
   const senduser = onlineusers.get(msgdata.to)
-  // console.log(msgdata)
+  console.log(msgdata.to)
   if(senduser){
     socket.to(senduser).emit("recievemsg",msgdata.msg)
   }

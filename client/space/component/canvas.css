@@ -34,3 +34,8 @@
     font-size: 1.2vw;
     cursor: pointer;
   }
+
+  #closechat{
+    left: 70vw;
+    position: relative;
+  }

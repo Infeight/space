@@ -1,6 +1,7 @@
 import React from 'react'
 import{useRef,useState,useEffect} from 'react'
 import './chat.css'
+import socket from "./socketfront";
 
 // import { IoArrowBackSharp } from "react-icons/io5";
 import InputEmoji from "react-input-emoji";
@@ -9,8 +10,8 @@ import InputEmoji from "react-input-emoji";
 import { io } from 'socket.io-client'
 
 const Chat1 = (props) => {
-
-      const socket = useRef();
+  //  console.log(props)
+      // const socket = useRef();
       const scrollref = useRef();
       const userid = localStorage.getItem('current-id1')
       // const toid = localStorage.getItem('toid');
@@ -37,11 +38,11 @@ const Chat1 = (props) => {
                 })
               }
 
-        useEffect(()=>{
-                //  socket.current = io('ws://localhost:5004', {
-                //      transports: ['websocket'],
-                //  });
-        },[])
+        // useEffect(()=>{
+        //          socket.current = io('ws://localhost:5001', {
+        //              transports: ['websocket'],
+        //          });
+        // },[])
 
         // useEffect(()=>{     //yet to figure out//
         //     logins()
@@ -73,7 +74,7 @@ const Chat1 = (props) => {
           
             setAllmsgs(msgs)
           
-            socket.current.emit('sendmsg',{
+            socket.emit('sendmsg',{
               to: props.todet.toid,
               from: userid,
               message:msg.caption
@@ -108,8 +109,8 @@ const Chat1 = (props) => {
      
 
            useEffect(()=>{  // if there is current active socket and a recievemsg is called then Arraive message State is updated//
-             if(socket.current){
-               socket.current.on('recievemsg',(msg)=>{
+             if(socket){
+               socket.on('recievemsg',(msg)=>{
                    setArrivemsg({fromself:false, message:msg})
                })
              }
@@ -134,7 +135,7 @@ const Chat1 = (props) => {
     
     <div className="chathere" id='chathere'>
       <div className="chatheremob" id='chatheremob'></div>
-    <div className='to_name' id='to_name'>{props.todet.toname}
+    <div className='to_name' id='to_name'>{props.todet.name}
     {/* <div className="backbtn" ><IoArrowBackSharp /></div> */}
     {/* <div className="toname" id='toname'></div> */}
       </div>
