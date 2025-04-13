@@ -1,16 +1,36 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
 .chatarea{
     position: absolute;
     width: 25vw;
-    height: 80vh;
+    height: 70vh;
     background-color: #fff1ff;
-    min-height: 80vh;
+    min-height: 70vh;
     overflow-y: scroll;
     animation: home 0.5s 0s 1 ease;
     z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    bottom: 2%;
+    left: 1%;
+    box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.1), 
+    0 4px 10px rgba(0, 0, 0, 0.05);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
 }
+
+.chatarea:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+      0 12px 24px rgba(0, 0, 0, 0.15), 
+      0 6px 12px rgba(0, 0, 0, 0.08);
+  }
 .chatarea::-webkit-scrollbar{
     display: none;
 }
@@ -72,7 +92,7 @@
 
 .chathere {
     width: 56vw;
-    height: 80vh;
+    height: 70vh;
     background-color: #fff;
     overflow: hidden;
   
@@ -80,8 +100,8 @@
 }
 .chatheremob{
     width: 25vw;
-    height: 80vh;
-    background-color: #fff1ff;
+    height: 70vh;
+    background-color: #8c8c8c3d;
     overflow: hidden;
     position: absolute;
     background-image: url('chat.gif');
@@ -95,9 +115,11 @@
     /* display: none;
     width: 100%; */
     width: 100%;
-    height: 65vh;
-    min-height: 65vh;
+    height: 60vh;
+    min-height: 60vh;
     overflow-y: scroll;
+    position: relative;
+    z-index: 10;
     /* background-image: url('chat.gif'); */
    
 
@@ -111,6 +133,17 @@
     margin-left: 4px;
     position: relative;
     left: -5px;
+}
+
+.react-emoji-picker--wrapper {
+    position: absolute;
+    bottom: 0;
+  
+    height: 435px;
+    width: 420px;
+    overflow: hidden;
+    z-index: 10;
+    left: 1vw;
 }
 .react-input-emoji--container{
     margin-left: 4px;
@@ -160,17 +193,18 @@
 }
 
 .to_name{
-    background-color: purple;
-    height: 3vw;
-    margin: 0.5vw;
-    color: #fff;
+    background-color: #1F2F43;
+    height: 2.5vw;
+    margin:0 0.5vw;
+    color: white;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     padding: 0 1vw;
-    font-size: 1.5vw;
+    font-size: 1.4vw;
     font-weight: 600;
     font-family: 'Nunito';
+    border: 1px solid white;
     border-radius: 10px;
     box-shadow: 1px 1.5px 8px black;
     position: relative;
@@ -179,27 +213,27 @@
     /* display: none; */
 }
 .msgsent{
-    background-color: #f2befa;
+    background-color: rgb(133, 168, 214);
     max-width: 45%;
     height: auto;
     min-height: 2vw;
     width: fit-content;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     font-family: 'Nunito';
-    color: purple;
+    color: white;
     box-sizing: border-box;
     padding: 0 10px;
-    /* display: flex; */
     align-items: center;
     border-radius: 1vw 0vw 1vw 1vw;
-   word-wrap: break-word;
+    word-wrap: break-word;
     position: relative;
     margin-left: auto;
     margin-right: 10px;
+    margin-bottom: -0.5vw;
 }
 
 .msgreceived{
-    background-color: purple;
+    background-color: #1F2F43;
     color: #fff;
     font-size: 1.5vw;
     font-family: 'Nunito';
@@ -343,19 +377,19 @@
             }
         }}
 
-        @media screen and (min-width:760px) {
-            @media screen and (max-width:1024px) {
+        @media screen and (min-width:1024px) {
+            @media screen and (max-width:1439px) {
                 .chatarea{
-                    width: 100vw;
+                    width: 35vw;
                 }
                 .chathere{
-                    width: 100vw;
+                    width: 35vw;
                     background: url();
                     z-index: -2;
                 }
                 .chatheremob{
-                    width: 100vw;
-                    height: 30vh;
+                    width: 35vw;
+                    height: 70vh;
                     background-color: #fff;
                     overflow: hidden;
                     background-image: url('chat.gif');
@@ -395,15 +429,16 @@
                 }
                 .react-emoji{
                     left: 0;
+                    height: 4vw;
                 }
         
                 .react-emoji-picker--wrapper{
-                    top: -60vh;
-                    left: 1.5vw;
+                        top: -58vh;
+                        left: 0.5vw;
                 }
                 .react-input-emoji--input{
-                    font-size: 3.5vw;
-                    height: 5vw;
+                    font-size: 2vw;
+                    height: 4vw;
                     box-shadow: 1px 1px 3px black;
                     max-width: 80vw;
                 }
@@ -416,29 +451,35 @@
                 }
 
                 .input-send-cont{
-                    top: -4vw;
-                    position: relative;
+                    width: 100%;
+                    display: flex;
+                    height: 4vw;
+                    align-items: center;
+                    justify-content: center;
                 }
                 .send-btn{
                     width: 10.5vw;
+                    height: 3vw;
+                    font-size: 1.5vw;
                 }
                 .to_name{
-                    font-size: 3.5vw;
-                    height: 6vw;
+                    font-size: 2.5vw;
+                    height: 4vw;
                 }
-                .chatscont{
-                    height: calc(87.5vh - 45px);
+                .chatscont {
+                    height: calc(58.5vh - 45px);
+                    min-height: 59vh;
                 }
                 .msgsent{
-                    font-size: 2.5vw;
+                    font-size: 2vw;
 
                 }
                 .msgreceived{
-                    font-size: 2.5vw;
+                    font-size: 2vw;
                 }
                 .react-input-emoji--button svg {
                     fill: #858585;
-                    width: 4vw;
-                    height: 5vw;
+                    width: 3vw;
+                    height: 3vw;
                 }
             }}

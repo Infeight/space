@@ -11,6 +11,10 @@ const bodyParser = require('body-parser')
 const login = require('./mongodb')
 const online = require('./mongodb')
 const messages = require('./mongodb')
+const tasks = require('./mongodb');
+const { finished } = require('stream');
+// const { finished } = require('stream');
+// const { default: socket } = require('../client/space/component/socketfront');
 const port  = 5001;
 
 
@@ -23,7 +27,7 @@ server.listen(port,()=>{
 
 const io = new Server(server,{
   cors: {
-    origin: ["https://spacecc.onrender.com","http://localhost:8000/","http://localhost:5173"], // Replace with your client URL
+    origin: ["https://spacecc.onrender.com","http://localhost:8000/","http://localhost:5173","http://localhost:5174"], // Replace with your client URL
     methods: ["GET", "POST"],
 },
 })
@@ -42,27 +46,51 @@ io.on('connection',(socket)=>{
   // }
 
   
-console.log('socket is working' + socket.id)
+// console.log('socket is working' + socket.id)
 
  global.chatSocket = socket;
  socket.on('add-user',(curuserdet)=>{
  cursuseridstore  = curuserdet.id;
-   onlineusers.set(curuserdet.id,socket.id)
+  //  onlineusers.set(curuserdet.id,socket.id)
 
-  onlineobj[socket.id] = {
-    curuserid: curuserdet.id,
-    name: curuserdet.name,
-    x: Math.random()* 500,
-    y: Math.random()* 500,
-    color: `hsl(${Math.random()*360},100%,50%)`
+   if (onlineusers.has(curuserdet.id)) {
+    console.log("yes"+onlineusers.get(curuserdet.id))
+  //  console.log(onlineusers)
+    delete onlineobj[onlineusers.get(curuserdet.id)];
+    socket.to(onlineusers.get(curuserdet.id)).emit("instance")
+
+    onlineusers.set(curuserdet.id,socket.id)
+    onlineobj[socket.id] = {
+      curuserid: curuserdet.id,
+      name: curuserdet.name,
+      dp:curuserdet.dp,
+      x: curuserdet.role == 'Manager'? 1100 :Math.floor(Math.random() * (800 - 200 + 1)) + 200,
+      y: curuserdet.role == 'Manager'? 100: Math.floor(Math.random() * (800 - 400 + 1)) + 400,
+      color: `hsl(${Math.random()*360},100%,50%)`,
+      socketid: socket.id
+    }
+  }
+  else{
+    onlineusers.set(curuserdet.id,socket.id)
+    onlineobj[socket.id] = {
+      curuserid: curuserdet.id,
+      name: curuserdet.name,
+      dp:curuserdet.dp,
+      x: curuserdet.role == 'Manager'? 1100 :Math.floor(Math.random() * (800 - 200 + 1)) + 200,
+      y: curuserdet.role == 'Manager'? 100: Math.floor(Math.random() * (800 - 400 + 1)) + 400,
+      color: `hsl(${Math.random()*360},100%,50%)`,
+      socketid: socket.id
+    }
   }
 
-  console.log(onlineobj)
+ 
+
+  // console.log(onlineobj)
 
  
   
  })
-
+ 
  socket.on('updateUsers',()=>{
   socket.emit("updateUsers1",(onlineobj));
  })
@@ -72,9 +100,109 @@ console.log('socket is working' + socket.id)
   //       user.socket == socket.id 
   //  }))
   onlineusers.delete(userid)
-
+   
   delete onlineobj[userid];
+
  })
+
+ socket.on('wantchat',(details)=>{
+    io.to(JSON.parse(details).socketid).emit('wantchat',JSON.parse(details))
+ })
+
+ socket.on('chatyes',(chatyesdet)=>{
+ 
+    io.to(JSON.parse(chatyesdet).socketid).emit('chatyes',chatyesdet)
+ })
+
+ socket.on('chatno',(chatnodet)=>{
+  
+    io.to(JSON.parse(chatnodet).socketid).emit('chatno',chatnodet)
+ })
+
+ socket.on('joinmeet',()=>{
+  socket.join('meeting');
+  socket.emit('joined-meet');
+
+})
+
+socket.on('leavemeet',()=>{
+  socket.leave('meeting');
+  socket.emit('left-meet');
+
+})
+
+socket.on('announcement', (data) => {
+  socket.to('meeting').emit('announcement', data); // Send to others in 'meeting' room
+});
+
+ socket.on('announce_all',(data)=>{
+    socket.broadcast.emit('announce_all_received',data)
+    console.log('broadcasting')
+ })
+
+ socket.on('joincoffee',()=>{
+  socket.join('coffeeroom');
+  socket.emit('joined-coffee');
+
+})
+socket.on('leavecoffee',()=>{
+  socket.leave('coffeeroom');
+  socket.emit('left-coffee');
+})
+
+socket.on('coffeechat', (data) => {
+  socket.to('coffeeroom').emit('coffeechat', data); // Send to others in 'meeting' room
+});
+
+socket.on('joinbrainstorm',(data)=>{
+  socket.join('brainstorm');
+  console.log('Joined meeting');
+  socket.emit('joined-brain');
+  socket.to('brainstorm').emit("joined-brain", data);
+})
+
+socket.on('brainchat', (data) => {
+  socket.to('brainstorm').emit('brainchat', data); // Send to others in 'meeting' room
+});
+
+socket.on("user:call", ({  offer }) => {
+  socket.to('brainstorm').emit("incomming:call", { from: socket.id, offer });
+});
+
+
+socket.on("call:accepted", ({  ans }) => {
+  socket.to('brainstorm').emit("call:accepted", { from: socket.id, ans });
+});
+
+socket.on("peer:nego:needed", ({  offer }) => {
+  // console.log("peer:nego:needed", offer);
+  socket.to('brainstorm').emit("peer:nego:needed", { from: socket.id, offer });
+});
+
+socket.on("peer:nego:done", ({  ans }) => {
+  // console.log("peer:nego:needed", offer);
+  socket.to('brainstorm').emit("peer:nego:final", { from: socket.id, ans });
+});
+
+socket.on('draw',(data)=>{
+  socket.to('brainstorm').emit('draw',data);
+})
+
+socket.on('down',(data)=>{
+  socket.to('brainstorm').emit('down',data);
+})
+
+socket.on('leave-brain',()=>{
+  socket.leave('brainstorm')
+  socket.emit('left-brain');
+})
+
+socket.on('taskassigned',(data)=>{
+  const senduser = onlineusers.get(data)
+  socket.to(senduser).emit('taskassigned');
+})
+
+
 
  socket.on('disconnect',(reason)=>{
    console.log(reason)
@@ -89,26 +217,49 @@ console.log('socket is working' + socket.id)
   }
 })
 
+socket.on('discussimg',(msgdata)=>{
+  // console.log(msgdata)
+  socket.to('meeting').emit('discussimg',msgdata)
+})
+
+socket.on('announceimg',(msgdata)=>{
+  socket.broadcast.emit('announceimg',msgdata)
+})
+
+socket.on('sendmsg',(data)=>{
+
+  socket.to(data.to).emit('recievemsg',data)
+})
+
+
+
+
 //  usersarr.filter((user)=>user.socket == socket.id)
 socket.on('keydown',(keycode)=>{
-    switch(keycode){
+    if(socket.id){
+      switch(keycode){
 
-      case 'keyW':
-       
-        onlineobj[socket.id].y-=10;
-        break
-
-      case 'keyA':
-        onlineobj[socket.id].x-=10;
-        break
-
-      case 'keyD':
-      onlineobj[socket.id].x+=10;
-        break
-
-      case 'keyS':
-        onlineobj[socket.id].y+=10;
-        break      
+        case 'keyW':
+         
+          try{onlineobj[socket.id].y-=10;}
+          catch(e){console.log(e)}
+          break
+  
+        case 'keyA':
+          try{onlineobj[socket.id].x-=10;}
+          catch(e){console.log(e)}
+          break
+  
+        case 'keyD':
+        try{ onlineobj[socket.id].x+=10;}
+          catch(e){console.log(e)}
+          break
+  
+        case 'keyS':
+          try{ onlineobj[socket.id].y+=10;}
+          catch(e){console.log(e)}
+          break      
+      }
     }
 })
 
@@ -168,7 +319,9 @@ app.post('/signup',async(req,res)=>{
   let signupdata = {
     username: req.body.username,
     password: req.body.password,
-    email: req.body.mail
+    email: req.body.mail,
+    role: req.body.role,
+    dp:req.body.dp
   }
 if(signupdata.username!=''&& signupdata.password!=''){
  await login.login.insertMany(signupdata)
@@ -208,26 +361,79 @@ app.post('/sendmsg', async(req,res)=>{
 
 })
 
-app.post('/getmsg',async(req,res)=>{
-  const{from_id,toid} = req.body
+app.post('/getmsg', async (req, res) => {
+  const { from_id, toid } = req.body;
+ 
 
-  const getmsg = await messages.messages.find({
-    users:{
-      $all:[from_id,toid]
-    }
-  })
-  .sort({updatedAt:1})
+  try {
+    const getmsg = await messages.messages.find({
+      users: { $all: [from_id, toid] }
+    }).sort({ updatedAt: 1 });
 
-  const projectmsgs = getmsg.map(msg=>{
-    return{
+
+    const projectmsgs = getmsg.map(msg => ({
       fromself: msg.sender.toString() === from_id,
       message: msg.message.text
+    }));
+  //  console.log(projectmsgs)
+    res.json(projectmsgs);
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+app.post('/gettask',async(req,res)=>{
+  const {userid} = req.body
+  const gettask = await tasks.tasks.find({
+    assigned:{
+      $all:userid
+    }
+  })
+
+  // console.log(gettask);
+
+  const projectmsgs = gettask.map(msg=>{
+    return{
+     task:msg,
+
     }
   })
   res.json(projectmsgs)
+ 
 })
 
+app.post('/task',async(req,res)=>{
+  const {task,userid,deadline,name} = req.body
+  const data = await tasks.tasks.create(
+    {
+      task:task,
+      deadline:deadline,
+      assigned: userid,
+      assignedname:name,
+      finished:false
+    }
+  )
+  const stat = {done:userid}
+  if(data) res.json(stat)
+})
+
+app.get('/alltasks',async(req,res)=>{
+  const gettask = await tasks.tasks.find();
+  // console.log(gettask)/
+  res.send(gettask);
+})
+
+app.post('/taskdone',async(req,res)=>{
+  const {taskid} = req.body
+  console.log(taskid)
+  const data = await tasks.tasks.updateOne({_id: taskid  },  { $set: { finished: true } })
+  const stat = {done:data.assignedname}
+  if(data) res.json(stat)
 
 
+})
+// console.log(messages.messages.find({ assigned: { $all: ["67e75a03a7f184ee2c690dd0", "67e751b0b5164414adff1370"] } }).sort({ updatedAt: 1 }))
 
 

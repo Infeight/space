@@ -17,25 +17,1034 @@
     left: 0vw;
     
   }
-  #chat{
-    position: absolute;
-    z-index: 4;
-  }
+
 
   #leave{
     position: absolute;
     z-index: 0;
-    top: 0;
-    left: 94%;
+    top: 5px;
+    left: 5px;
     background-color: red;
     border: 0;
-    box-shadow: 1px 1px 1px black;
-    color: wheat;
+    box-shadow: 0px 0px 3px black;
+    color: white;
     font-size: 1.2vw;
     cursor: pointer;
+    border-radius: 5px;
   }
 
   #closechat{
-    left: 70vw;
+   
     position: relative;
   }
+
+  .confirmchat{
+    box-sizing: border-box;
+    width: 25%;
+    height: max-content;
+    position: absolute;
+    background-color: #1F2F43;
+    right: 5px;
+    top: 5px;
+    display: none;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 2px;
+
+  }
+  .chatmsg{
+    text-align: center;
+    font-size: 1.3vw;
+    min-height: 40px;
+    font-family: 'Nunito';
+    width: 100%;
+    color: white;
+  }
+
+  .btncont{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 40%;
+    width: 100%;
+  }
+
+  .btncont button{
+    width: 20%;
+    font-size: 1vw;
+    font-family: 'Nunito';
+    border-radius: 6px;
+    border: none;
+    background-color:white;
+    color: #1F2F43;
+    box-shadow: 0px 0px 0.5px;
+    cursor: pointer;
+  }
+
+  .btncont button:hover{
+    background-color: #1F2F43;
+    color: white;
+    border: 1px solid white;
+  }
+
+
+  .announcement{
+    width: 30vw;
+    height: auto;
+    min-height: 6vw;
+    box-shadow: 0px 0px 3px 0px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    background-color: transparent;
+    position: absolute;
+    bottom: 2%;
+    left:2vw;
+    transform: rotateY(90deg);
+    transition-duration: 0.2s;
+  }
+
+  .announcement.open{
+   bottom: 2%;
+    transform: rotateY(0deg);
+    transition-duration: 0.5s;
+    height: auto;
+    min-height: 6vw;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: white;
+   box-shadow:  0 8px 20px rgba(0, 0, 0, 0.1), 
+    0 4px 10px rgba(0, 0, 0, 0.05);
+  
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .announcement.open:hover{
+    transform: translateY(-4px);
+    box-shadow: 
+      0 12px 24px rgba(0, 0, 0, 0.15), 
+      0 6px 12px rgba(0, 0, 0, 0.08);
+  }
+  .announcement textarea{
+    min-width: 98%;
+    min-height: 4vw;
+    border-radius: 5px;
+    max-height: 70%;
+    max-width: 95%;
+    font-size: 1.2vw;
+    border: none;
+    outline: none;
+  }
+  .announcement button{
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1.2vw;
+
+  }
+
+  .meetingdesk{
+    width: 35vw;
+    height: 40vw;
+    font-size: 1vw;
+    display: none;
+    flex-direction: column;
+    background-color: grey;
+    border-radius: 5px;
+    position: absolute;
+    top: 5vw;
+    left: 35vw;
+    flex-direction: column;
+    box-shadow:  0 8px 20px rgba(0, 0, 0, 0.1), 
+    0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .meetingdesk:hover{
+    transform: translateY(-4px);
+    box-shadow: 
+      0 12px 24px rgba(0, 0, 0, 0.15), 
+      0 6px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-head-cont{
+    height: 3.5vw;
+    position: relative;
+    margin-bottom: 0.5vw;
+    box-shadow: 0 1px 3px 0px black;
+    background-color: #1F2F43;
+    color: white;
+    width: 100%;
+    margin: auto;
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    /* margin-top: 0.5vw; */
+    margin-bottom: 1px;
+  }
+  .meetinghead{
+    font-size: 1.5vw;
+    font-family: 'Nunito';
+    font-weight: 600;
+    width: 80%;
+    letter-spacing: 2px;
+    box-sizing: border-box;
+    padding-left: 15px;
+  }
+  .announcementdisp{
+    width: 35vw;
+    height: 40vw;
+    font-size: 1vw;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0 5px 5px;
+    position: relative;
+    align-items: center;
+    justify-content: space-evenly;
+    overflow: scroll;
+    box-sizing: border-box;
+    padding: 10px;
+    justify-content: flex-start;
+    background-color: white;
+   
+  }
+
+  .announcementdisp::-webkit-scrollbar{
+    display: none;
+  }
+  .announcedata{
+    display: flex;
+    flex-direction: column;
+    width: 61%;
+    height: auto;
+    font-size: 1.2vw;
+    font-family: 'Nunito';
+    justify-content: space-evenly;
+    align-items: flex-end;
+    box-shadow: 0 0 2px 0;
+    border-radius: 3px;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: #1F2F43;
+    color: white;
+    margin-bottom: 5px;
+    position: relative;
+    margin-right: auto;
+  }
+
+  .announcedata-sent{
+    display: flex;
+    flex-direction: column;
+    width: 61%;
+    height: auto;
+    /* min-height: 4vw; */
+    font-size: 1.2vw;
+    font-family: 'Nunito';
+    justify-content: space-evenly;
+    align-items: flex-end;
+    box-shadow: 0 0 2px 0;
+    border-radius: 3px;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: #1F2F43;
+    color: white;
+    margin-bottom: 5px;
+    position: relative;
+    margin-left: auto;
+  }
+  .showannouncement{
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
+  }
+  .announcer{
+    position: relative;
+    font-size: 1vw;
+
+  }
+  .announcehere{
+    width: 4vw;
+    height: 3vw;
+    position: relative;
+    top: 90%;
+    left: 95%;
+    border: 1px solid;
+    border-radius: 5px;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .announcebtnhold{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 90%;
+    height: 15%;
+    margin: 5px;
+  }
+
+  .closemeet{
+  
+    position: relative;
+    right: 0vw;
+    background-color: red;
+    border: none;
+    box-shadow: 0 0 2px 0;
+    border-radius: 2px;
+    font-size: 1vw;
+    cursor: pointer;
+  }
+
+  .discussimg {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 0;
+   
+    width: 30vw;
+    height: 15vw;
+    justify-content: space-evenly;
+    align-items: center;
+    bottom: 2%;
+    transform: rotateY(90deg);
+    transition-duration: 0.2s;
+  }
+  .discussimg.open{
+    transform: rotateY(0deg);
+    transition-duration: 0.5s;
+  }
+
+  .discussimg input[type = 'file']{
+    width: 85%;
+    height: 80%;
+   display: none;
+  }
+
+  #discussimg-img{
+    display: none   ;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 2px;
+        border-radius: 20px;
+  }
+
+  .show-discussimg-img{
+    position: relative;
+    display: flex   ;
+    width: 100%;
+    height: 95%;
+    box-sizing: border-box;
+    padding: 2px;
+    border-radius: 20px;
+ 
+  }
+
+  .removeimg{
+    font-size: 1.8vw;
+    width: 10%;
+    height: 100%;
+    border: none;
+    box-shadow: 0 0 2px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    display: none;
+  }
+
+  #discussimg-img img{
+    border-radius: 20px;
+  }
+
+  .posterimglabel{
+    width: 15%;
+    height: 100%;
+      background-color: white;
+      color: black;
+      font-size: 1.8vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-family: 'nunito';
+      font-weight: 600;
+      cursor: pointer;
+  }
+  .sendbtn{
+    width: fit-content;
+    height: 2vw;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 2px 0;
+    background-color: #1F2F43;
+    color: white;
+    font-size: 1.2vw;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chat-post-btns{
+    display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 5%;
+        width: 25%;
+        position: absolute;
+        top: 90%;
+        left: 75%;
+  }
+  .chat-post-btns button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3vw;
+    height: 3vw;
+    border-radius: 10px;
+    border: none;
+   cursor: pointer;
+    outline: none;
+    opacity: 60%;
+    z-index: -5;
+
+  }
+
+  .chat-post-btns button svg{
+    font-size: 1.5vw;
+    z-index: -3;
+  }
+
+  .joinmeet{
+    display: flex;
+    width: 30%;
+    height: 4vw;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #1F2F43;
+    color: white;
+    font-size: 1.1vw;
+    font-family: 'Nunito';
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px 0px black;
+    top: -5vw;
+    left: 35%;
+    position: absolute;
+    transition-duration: 0.2s;
+  }
+
+  .joinmeet button{
+    border: none;
+    box-shadow: 0 0 2px 0px;
+    font-size: 1vw;
+    font-family: 'Nunito';
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 5px;
+    width: 5vw;
+    cursor: pointer;
+    transition-duration: 0.1s;
+    background-color: white;
+    color: #1F2F43;
+  }
+
+  .joinmeet button:hover{
+    font-weight: 600;
+    background-color: #1F2F43;
+    color: white;
+    transition-duration: 0.1s;
+    font-size: 1.1vw;
+    letter-spacing: 2px;
+  }
+
+  .joinedmeet{
+    width: 20%;
+    height: 2vw;
+    font-size: 1.1vw;
+    font-family: 'Nunito';
+    box-shadow: 0 0 2px 0 black;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position: absolute;
+    top: 95%;
+    left: 40%;
+    background-color: #1F2F43;
+    color: white;
+    transition-duration: 0.2s;
+    opacity: 0;
+  }
+  #leavemeet{
+    background-color: #ffe5e4;
+    color: rgb(252 25 25);
+  }
+  #leavemeet button{
+    color: rgb(252 25 25);
+  }
+  #leavemeet button:hover{
+    font-weight: 600;
+    background-color: rgb(252 25 25);
+    color: white;
+    transition-duration: 0.1s;
+    font-size: 1.1vw;
+    letter-spacing: 2px;
+  }
+  #leftmeet{
+    background-color: #ffe5e4;
+    color: rgb(252 25 25);
+  
+  }
+
+
+  .announceall{
+    width: 30vw;
+    height:auto;
+    min-height: 6vw;
+    box-shadow: 0px 0px 3px 0px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    background-color: transparent;
+    position: absolute;
+    bottom: 2%;
+    left:2vw;
+    transform: rotateY(90deg);
+    transition-duration: 0.2s;
+  }
+
+  .announceall.open{
+   bottom: 2%;
+    transform: rotateY(0deg);
+    transition-duration: 0.5s;
+    height: auto;
+    min-height: 6vw;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: white;
+    box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.1), 
+    0 4px 10px rgba(0, 0, 0, 0.05);
+  
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .announceall.open:hover{
+    transform: translateY(-4px);
+    box-shadow: 
+      0 12px 24px rgba(0, 0, 0, 0.15), 
+      0 6px 12px rgba(0, 0, 0, 0.08);
+  }
+  .announceall textarea{
+    min-width: 98%;
+    min-height: 4vw;
+    border-radius: 5px;
+    max-height: 70%;
+    max-width: 95%;
+    font-size: 1.2vw;
+    border: none;
+    outline: none;
+  }
+  .announceall button{
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1.2vw;
+
+  }
+
+  .announcementspanel{
+    flex-direction: column;
+    width: 25%;
+    height: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    position: relative;
+    top: 3vw;
+    left: 1vw;
+    box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.1), 
+    0 4px 10px rgba(0, 0, 0, 0.05);
+  
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 5px;
+  }
+
+  .announcementspanel:hover{
+    transform: translateY(-4px);
+    box-shadow: 
+      0 12px 24px rgba(0, 0, 0, 0.15), 
+      0 6px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .allannouncements{
+    width: 96%;
+    height: 96%;
+    background-color: white;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1vw;
+    .announcedata{
+      width: 95%;
+      margin-right: 0;
+    }
+  }
+ .allannouncements::-webkit-scrollbar{
+  display: none;
+ }
+ 
+ #announce-img{
+  display: none   ;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 2px;
+  border-radius: 20px;
+ }
+
+ #announce-img img {
+  border-radius: 20px;
+ }
+
+
+ .coffeeroomchat{
+  width: 30vw;
+  height: auto;
+  min-height: 6vw;
+  box-shadow: 0px 0px 3px 0px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  background-color: transparent;
+  position: absolute;
+  bottom: 2%;
+  left:2vw;
+  transform: rotateY(90deg);
+  transition-duration: 0.2s;
+}
+
+.coffeeroomchat.open{
+ bottom: 2%;
+  transform: rotateY(0deg);
+  transition-duration: 0.5s;
+  height: auto;
+  min-height: 6vw;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: white;
+  box-shadow: 
+  0 8px 20px rgba(0, 0, 0, 0.1), 
+  0 4px 10px rgba(0, 0, 0, 0.05);
+
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.coffeeroomchat.open:hover{
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 24px rgba(0, 0, 0, 0.15), 
+    0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.coffeeroomchat textarea{
+  min-width: 98%;
+  min-height: 4vw;
+  border-radius: 5px;
+  max-height: 70%;
+  max-width: 95%;
+  font-size: 1.2vw;
+  border: none;
+  outline: none;
+}
+.coffeeroomchat button{
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1.2vw;
+}
+
+.coffeechatpanel{
+  width: 100%;
+  height: auto;
+  min-height: 15vw;
+  max-height: 22vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coffeehead{
+  font-size: 1.2vw;
+    font-family: 'Nunito';
+    font-weight: 600;
+    width: 95%;
+    letter-spacing: 2px;
+    box-sizing: border-box;
+    padding-left: 0px;
+}
+.allcoffeechats{
+  width: 98%;
+  height: 18vw;
+  font-size: 1vw;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius:0px 0px 5px 5px;
+  position: relative;
+  align-items: center;
+  justify-content: space-evenly;
+  overflow: scroll;
+  box-sizing: border-box;
+  padding: 10px;
+  justify-content: flex-start;
+}
+.allcoffeechats::-webkit-scrollbar{
+  display: none;
+}
+
+.taskdisplay{
+  display: none;
+  background-color: #1F2F43;
+  color: white;
+  width: 20vw;
+  height: 15vw;
+  z-index: 10;
+  position: absolute;
+  border-radius: 5px;
+  box-shadow: 0 0 2px 0;
+  top: 1vw;
+  right: 1vw;
+  margin-right: auto;
+  box-sizing: border-box;
+  padding: 10px;
+  overflow-y: scroll;
+
+  h4{
+    font-size: 1.4vw;
+    margin: 0;
+    font-family: 'nunito';
+  }
+}
+.taskdisplay::-webkit-scrollbar{
+  display: none;
+}
+.taskcontainer{
+  background-color: white;
+  display: flex;
+  min-height: 2.5vw;
+  height: auto;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 1px 0;
+  font-size: 1.1vw;
+  font-family: 'Nunito';
+  margin: 5px 0;
+  color: #1F2F43;
+}
+.taskname{
+  width: 55%;
+  word-wrap: break-word;
+  height: auto;
+}
+.deadline{
+ font-size: 15px;
+}
+
+.newinstance{
+  position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1F2F43;
+    display: none;
+    font-size: 1.3vw;
+    color: white;
+    font-family: 'Nunito';
+    text-align: center;
+    /* display: flex; */
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 20;
+    flex-direction: column;
+}
+.newinstance iframe{
+  width: 45%;
+  height: 45%;
+  border: none;
+  outline: none;
+}
+
+.allassignedtasks{
+  top: 5px;
+  left: 15vw;
+    position: absolute;
+    width: 20vw;
+    height: 20vw;
+    overflow-y: scroll;
+    font-size: 1.2vw;
+    font-family: 'Nunito';
+    background-color: #1F2F43;
+    color: #1F2F43;
+    box-sizing: border-box;
+    padding: 8px;
+    box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.1), 
+    0 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    display: none;
+}
+
+.assignedtasksdisp{
+  width: 100%;
+  box-sizing: border-box;
+ 
+}
+
+.allassignedtasks::-webkit-scrollbar{
+  display: none;
+}
+.taskcont-show{
+  background-color: white;
+  width: 100%;
+  border-radius: 5px;
+  margin: 8px 0px;
+  box-sizing: border-box;
+  display: flex;
+  min-height: 3vw;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  height: auto;
+}
+
+.taskname-show{
+  width: 100%;
+    word-wrap: break-word;
+    height: auto;
+    box-sizing: border-box;
+    padding: 5px;
+    font-size: 1.3vw;
+}
+
+.assignedname{
+  box-sizing: border-box;
+  padding: 2px;
+  font-size: 1vw;
+}
+
+#assignedtasks{
+  position: absolute;
+  z-index: 0;
+  top: 5px;
+  left: 75px;
+  background-color:#1F2F43;
+  border: 0;
+  box-shadow: 0px 0px 3px black;
+  color: white;
+  font-size: 1.2vw;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.assign-task-head{
+  height: 3.5vw;
+    position: relative;
+    margin-bottom: 0.5vw;
+    box-shadow: 0 1px 3px 0px black;
+    background-color: #1F2F43;
+    color: white;
+    width: 100%;
+    margin: auto;
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 1px;
+    position: sticky;
+    top: -1vw;
+}
+
+.taskid{
+  display: none;
+}
+
+.completed{
+  background-color: white;
+  border: none;
+  width:fit-content;
+  height: fit-content;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px 0px;
+  cursor: pointer;
+  font-size: 1vw;
+  padding: 0;
+}
+.nophone{
+  display: none;
+}
+
+@media screen and (min-width:300px) {
+  @media screen and (max-width:700px) {
+   .nophone{
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background-color:#1F2F43;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5vw;
+      font-family: 'Nunito';
+      font-weight: 600;
+      position: absolute;
+      z-index: 10;
+      text-align: center;
+      color: white;
+   }
+  }
+}
+
+@media screen and (min-width:700px) {
+  @media screen and (max-width:1023px) {
+    .nophone{
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background-color:#1F2F43;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3vw;
+      font-family: 'Nunito';
+      font-weight: 600;
+      text-align: center;
+      color: white;
+      position: absolute;
+      z-index: 10;
+  }
+  }}
+
+@media screen and (min-width:1024px) {
+  @media screen and (max-width:1439px) {
+    .chat-post-btns{
+      width: 30%;
+      left: 70%;
+    }
+    .chat-post-btns button{
+      width: 3.5vw;
+      height: 3.5vw;
+    }
+    .announceall textarea{
+      font-size: 1.5vw;
+    }
+    .announceall button{
+      font-size: 1.4vw;
+    }
+    .announcementspanel{
+      height: 35vw;
+      width: 30vw;
+      top: 4vw;
+      left: 2vw;
+    }
+    #announcer{
+      font-size: 1.3vw;
+    }
+
+    .coffeeroomchat{
+      width: 32vw;
+    }
+    .coffeeroomchat textarea{
+      font-size: 1.5vw;
+    }
+    .coffeeroomchat button{
+      font-size: 1.4vw;
+    }
+    .coffeehead{
+      font-size: 1.5vw;
+    }
+
+    #whiteboard{
+      width: 68%;
+    }
+    .chats{
+      width: 30%;
+    }
+    #brainstorm_matter{
+      font-size: 1.5vw;
+    }
+    .sendbtn{
+      font-size: 1.3vw;
+      height: 3vw
+    }
+    .joinmeet{
+      width: 35%;
+      left: 32.5%;
+      font-size: 1.4vw;
+    }
+    .joinmeet button{
+      font-size: 1.4vw;
+    }
+
+    .announcement textarea{
+      font-size:1.5vw;
+    }
+    .announcement button{
+      font-size: 1.4vw;
+    }
+    .announcement{
+      width: 35vw;
+    }
+    .meetingdesk{
+      width: 50vw;
+      left: 25vw;
+    }
+    .announcementdisp{
+      width: 50vw;
+    }
+    .announcedata-sent{
+      font-size: 1.4vw;
+    }
+    .closemeet{
+      font-size: 1.3vw;
+    }
+    #announcer{
+      font-size: 1.4vw;
+    }
+
+    .taskdisplay{
+      width: 25vw;
+      height: 20vw;
+
+      h4{
+        font-size: 1.8vw;
+      }
+    }
+
+    #leave{
+      font-size: 1.5vw;
+    }
+    .chatmsg{
+      font-size: 1.5vw;
+    }
+    .btncont button{
+      font-size: 1.3vw;
+    }
+  }}

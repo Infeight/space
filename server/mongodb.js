@@ -16,8 +16,39 @@ const loginScema = new mongoose.Schema({
         type:String,
         required:true
     },
+    dp:{
+        type:String,
+        required:true
+    },
+    role:{
+        type:String,
+        required:true
+    },
     email:{
         type:String,
+        required:true
+    }
+})
+
+const taskScema = new mongoose.Schema({
+    task:{
+        type:String,
+        required:true
+    },
+    deadline:{
+        type:String,
+        required:true
+    },
+    assigned:{
+        type:String,
+        required:true,
+    },
+    assignedname:{
+        type:String,
+        required:true,
+    },
+    finished:{
+        type:Boolean,
         required:true
     }
 })
@@ -54,5 +85,6 @@ const onlineSchema = new mongoose.Schema({
 const login = new mongoose.model('login',loginScema)
 const messages = new mongoose.model('messages',msgSchema)
 const online = new mongoose.model('online',onlineSchema)
+const tasks = new mongoose.model('tasks',taskScema)
 
-module.exports = {login,messages,online}
+module.exports = {login,messages,online,tasks}

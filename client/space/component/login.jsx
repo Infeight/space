@@ -5,14 +5,16 @@ import { useState,useEffect,useRef } from 'react';
 import { Navigate } from 'react-router-dom';
 import socket from './socketfront';
 import { io } from 'socket.io-client'
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from './authcontext.jsx';
+import { BiSignal1 } from 'react-icons/bi';
 
 
 
 const Login = () => {
 
-        // const socket = useRef();
-  
+  const { login } = useAuth(); 
+  const navigate = useNavigate();
  
   let [user,setUser] = useState({
     username:"",
@@ -22,14 +24,18 @@ const Login = () => {
   let [signup,setSignup] = useState({
     username:"",
     password:"",
+    role:"",
     mail:""
   })
+
+  const [dp,setDp] = useState('');
 
   const [logins,setLogins] = useState([])
   const [newuser,setNewuser] = useState(true)
   const [showinp,setShowinp] = useState(false);
   
   const followinglist2 = []
+
 
 
   useEffect(()=>{
@@ -47,14 +53,7 @@ const Login = () => {
   
   }
 
-  // const setCookie = (name, value, days) => {
-  //   const date = new Date();
-  //   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-  //   const expires = "expires=" + date.toUTCString();
-  //   document.cookie = `${name}=${value}; ${expires}; path=/; secure; samesite=lax`;
-  // };
-  
-  // console.log(document.cookie)
+
 
   const handlesignup_anim = ()=>{
     document.getElementById('cover').style.borderRadius = "5px 0px 0px 5px"
@@ -86,7 +85,7 @@ const Login = () => {
 
     document.getElementById('wrongpass').style.display = 'none'
         document.getElementById('loginbtn').innerText = 'Log In'
-     document.getElementById('loginbtn').style.backgroundColor = 'purple'
+     document.getElementById('loginbtn').style.backgroundColor = '#1F2F43'
      document.getElementById('loginbtn').style.zIndex = '1'
 
 
@@ -97,9 +96,10 @@ const Login = () => {
     name = e.target.name;
     value = e.target.value;
     setSignup({ ...signup, [name]: value })
+    // console.log(signup)
 
     document.getElementById('signupbtn').style.zIndex = '0'
-    document.getElementById('signupbtn').style.backgroundColor = 'purple'
+    document.getElementById('signupbtn').style.backgroundColor = '#1F2F43'
     document.getElementById('signupbtn').innerText = 'Sign Up'
     document.getElementById('wrongnewpass').style.display = 'none'
   }
@@ -118,6 +118,8 @@ const Login = () => {
     console.log('hjb')
     document.getElementById('input-cont').style.display = 'none'
     document.getElementById('loading').style.display='block'
+    document.getElementById('loadingstatement').style.display = 'none'
+    document.getElementById('logo').style.display = 'none'
     document.getElementById('notfound').style.display = 'block'
    }
   }
@@ -133,7 +135,7 @@ const Login = () => {
          else{
 
      document.getElementById('loginbtn').innerText = 'Log In ...'
-     document.getElementById('loginbtn').style.backgroundColor = '#a064a0'
+     document.getElementById('loginbtn').style.backgroundColor = '#1F2F43'
      document.getElementById('loginbtn').style.zIndex = '-1'
 
 
@@ -146,21 +148,24 @@ const Login = () => {
   alllogin.then(response=>response.json()).then(data=>{
     console.log(data)
     if(data.loggedin!=null && data.loggedin.password === user.password){
-      socket.emit('add-user',{id:data.loggedin._id, name:user.username});
-      
+      socket.emit('add-user',{id:data.loggedin._id, name:user.username, role:data.loggedin.role,dp:data.loggedin.dp});
+
+      const userData = { id:data.loggedin._id, name:user.username , role: data.loggedin.role, dp:data.loggedin.dp};
+      login(userData); 
+
      
       localStorage.setItem('current-users',user.username)
       localStorage.setItem('current-users-pass',user.password)
       localStorage.setItem('current-id1', data.loggedin._id)
     
-   document.getElementById('input-cont').style.display = 'none'
+    document.getElementById('logincont').style.display = 'none'
    document.getElementById('logo').style.display ='none'
      document.getElementById('welcomebackcont').style.display = 'flex'
     }
     else{
        document.getElementById('wrongpass').style.display = 'initial'
         document.getElementById('loginbtn').innerText = 'Log In'
-     document.getElementById('loginbtn').style.backgroundColor = 'purple'
+     document.getElementById('loginbtn').style.backgroundColor = '#1F2F43'
      document.getElementById('loginbtn').style.zIndex = '1'
 
     }
@@ -174,7 +179,7 @@ const Login = () => {
 
   const submitSignup = async()=>{
      document.getElementById('signupbtn').style.zIndex = '-1'
-     document.getElementById('signupbtn').style.backgroundColor = '#a064a0'
+     document.getElementById('signupbtn').style.backgroundColor = '#1F2F43'
      document.getElementById('signupbtn').innerText = 'Sign Up...'
      
      let samepass =false;
@@ -191,6 +196,9 @@ const Login = () => {
       document.getElementById('wrongnewpass').style.display = 'block'
       // document.getElementById('password1').value = 'Password taken'
     }
+    else if(signup.role ==''){
+      document.getElementById('rolecont').style.border = '1px solid red'
+    }
     else{
       localStorage.setItem('current-users',signup.username)
       localStorage.setItem('current-users-pass',signup.password)
@@ -199,10 +207,20 @@ const Login = () => {
       document.getElementById('input-cont').style.display = 'none'
       document.getElementById('logo').style.display = 'none'
       document.getElementById('newusercont').style.display = 'flex'
-      console.log(signup)
-      await  fetch('http://localhost:5001/signup', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(signup) })
+      
+      let data = {
+        username:signup.username,
+        password:signup.password,
+        role:signup.role,
+        mail:signup.mail,
+        dp:dp
+      }
+
+      await  fetch('http://localhost:5001/signup', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
      
     }
+
+
     }
  
 
@@ -215,14 +233,36 @@ const Login = () => {
     // const interval =  setInterval(()=>{
     //     document.getElementById('loadingstatement').innerText = loadingstatements[Math.floor(Math.random()*5)]
     //   },3000)
+
+    const handledp=(e)=>{
+      document.querySelectorAll('.selectdpimg').forEach(element => {
+        element.style.border = 'none'
+      })
+      e.target.style.border = '2px solid #1F2F43'
+      setDp(e.target.alt)
+       
+    }
       
 
   return (
     <>
+  <div className="nophone" id='nophone'>
 
+  💻✨ Optimized for Desktop <br /> <br />
+
+  🚫📱 Mobile & Tablet Access Limited <br /> <br />
+
+This workspace is specially designed for laptops and desktop computers 💼🖥️
+
+For the best experience — including full canvas features, meetings, and team interactions — please switch to a larger screen. 
+
+Thanks for understanding! 💙
+  </div>
     <div className="cont">
 
-      <div className="logo" id='logo'>COMMUNE</div>
+      {/* <div className="logo" id='logo'>SPACE.</div> */}
+      {/* <img className='logo' src="logo.png" alt="" /> */}
+
       <div className="loading" id='loading'>
 
       {/* <DotLottieReact
@@ -230,11 +270,14 @@ const Login = () => {
       loop
       autoplay
     /> */}
-    <iframe id='loadingframe' src="https://lottie.host/embed/0779841c-24c8-4da4-b4bb-8b366930a3af/z6EltEHTOI.lottie" frameborder="0"></iframe>
+
+    <iframe id='loadingframe' src="https://lottie.host/embed/d2511452-7f46-41b9-af81-260b4a581ecd/b5fPioz7kC.lottie" frameborder="0"></iframe>
 
     <p className='loadingstatement' id='loadingstatement'>{loadingstatements[Math.floor(Math.random()*5)]}</p>
     <p className='loadingstatement' id='notfound' style={{display:'none'}}>We're sorry for the inconvenience 😔</p>
       </div>
+
+      <img className='logo' id='logo' src="logo.png" alt="" />
 
 <div className="input-cont" id='input-cont'>
 
@@ -246,6 +289,7 @@ const Login = () => {
 
     <input type="text" name='username' value={user.username} placeholder='Username' id='username' onChange={handleChange}/>
     <input type="text" name='password' value={user.password} placeholder='Password' id='password' onChange={handleChange} />
+    
    <div className='signbtn-holder'>
    <button type='submit' className='submit-btn' id='loginbtn' onClick={()=>{submit()}}>Log In</button>
 
@@ -266,6 +310,26 @@ const Login = () => {
 <input type="text" name='password' id='password1' placeholder='Password' value={signup.password}  onChange={handleSignup}/>
 <input type="text" name='mail' id='mail1' placeholder='E-mail' value={signup.mail} onChange={handleSignup}/>
 
+<div className="selectdp-head">Select your character</div>
+<div className="selectdp">
+  <img className='selectdpimg' onClick={handledp} src="people1.avif"  alt="people1.avif" />
+  <img className='selectdpimg' onClick={handledp} src="people2.avif" alt="people2.avif" />
+  <img className='selectdpimg' onClick={handledp} src="people3.avif" alt="people3.avif" />
+  <img className='selectdpimg' onClick={handledp} src="people4.avif" alt="people4.avif" />
+  <img className='selectdpimg' onClick={handledp} src="people5.avif" alt="people5.avif" />
+  <img className='selectdpimg' onClick={handledp} src="people6.avif" alt="people6.avif" />
+</div>
+
+<div className="selectdp-head">Select your role</div>
+
+<div className="rolecont" id='rolecont'>
+<input type="radio" name='role'  value="Manager"  id='role' onChange={handleSignup} />
+<span>Manager</span>
+<input type="radio" name='role'  value="Employee"  id='role' onChange={handleSignup} />
+<span>Employee</span>
+</div>
+
+
 <div className='signbtn-holder'>
 <button type='submit' className='submit-btn' onClick={handlesignin_anim}>Log In</button>
 
@@ -281,25 +345,26 @@ const Login = () => {
 <div id='welcomebackcont'>
  
 <div className="celebration1">
-  <iframe id='celebration' src="https://lottie.host/embed/503bed59-c29d-46eb-935d-a996c60858a3/geOsLMBMTf.lottie" frameborder="0"></iframe>
-
+ 
+ <img src="logo.png" alt="" />
   </div>
 
   <p className='welcomeback'>Welcome Back {user.username} !</p>
-<button className='navbtn1'  ><Link to={'/Home'}>Home</Link></button>
+<Link to={'/Home'}><button className='navbtn1'  >Home</button></Link>
 
 </div>
 
 <div id='newusercont'>
-  <div className="celebration">
-  <iframe id='celebration' src="https://lottie.host/embed/d7852d0f-dbde-43f2-9223-9233d839e93f/9i7ZLGOPeC.lottie" frameborder="0"></iframe>
-
+  <div className="celebration1">
+ 
+  <img src="logo.png" alt="" />
   </div>
   <p className='welcomeback'>
-Welcome to Commune! 🎉 <br />
+Welcome to Space! <br />
 
-We're so glad you've joined us.</p>
-<button className='navbtn1'  ><Link to={'/Home'}>Home</Link></button>
+We registered a new user.<br />Please login with your details.</p>
+<Link to={'/'}><button className='navbtn1' onClick={()=>{document.getElementById('newusercont').style.display='none'; document.getElementById('logo').style.display = 'block'}}>Login</button></Link>
+
 
 </div>
 
