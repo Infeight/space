@@ -23,7 +23,7 @@ const Asiigntask = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:5001/getalllogin', {
+      const response = await fetch('https://space-server-nuy1.onrender.com/getalllogin', {
         headers: { accept: 'application/json' }
       });
       const data = await response.json();
@@ -70,7 +70,7 @@ const Asiigntask = () => {
       setName('')
       setTask(()=>({...task, task:'',deadline:''})); 
 
-      const alltask =  fetch('http://localhost:5001/task',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const alltask =  fetch('https://space-server-nuy1.onrender.com/task',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
        alltask.then(response=>response.json()).then(data=>{
       if(data){
         

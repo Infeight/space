@@ -106,7 +106,7 @@ const Login = () => {
 
   const alllogins = async()=>{
    try{
-    const alllogins1 = await fetch('http://localhost:5001/getalllogin',{headers:{accept:'application/json'}})
+    const alllogins1 = await fetch('https://space-server-nuy1.onrender.com/getalllogin',{headers:{accept:'application/json'}})
 
    const alllogins11 = await alllogins1.json();
    alllogins11.map(logindet=>{
@@ -143,7 +143,7 @@ const Login = () => {
       username:user.username,
       password: user.password
     }
-  const alllogin = fetch('http://localhost:5001/login',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(userdet) })
+  const alllogin = fetch('https://space-server-nuy1.onrender.com/login',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(userdet) })
 
   alllogin.then(response=>response.json()).then(data=>{
     console.log(data)
@@ -216,7 +216,7 @@ const Login = () => {
         dp:dp
       }
 
-      await  fetch('http://localhost:5001/signup', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+      await  fetch('https://space-server-nuy1.onrender.com/signup', { method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
      
     }
 

@@ -907,7 +907,7 @@ const Canvas = (props) => {
       document.getElementById('taskdisplay').style.display = 'block'
     document.getElementById('taskdisplay').innerHTML=' <h4>Tasks</h4>'
     const data = {userid:user.id}
-    const alllogin = fetch('http://localhost:5001/gettask',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+    const alllogin = fetch('https://space-server-nuy1.onrender.com/gettask',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
 
     alllogin.then(response=>response.json()).then(data=>{
     
@@ -959,7 +959,7 @@ const Canvas = (props) => {
     e.target.closest('.taskcontainer').style.backgroundColor = '#c4ffc4'
     e.target.closest('.taskcontainer').removeChild(e.target)
 
- await fetch('http://localhost:5001/taskdone',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+ await fetch('https://space-server-nuy1.onrender.com/taskdone',{ method: 'post', headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
 
   
 }
@@ -987,7 +987,7 @@ const Canvas = (props) => {
      document.getElementById('allassignedtasks').style.display = 'block'
     try{
       document.getElementById('assignedtasksdisp').innerHTML = ''
-      const alltasks = await fetch('http://localhost:5001/alltasks',{headers:{accept:'application/json'}})
+      const alltasks = await fetch('https://space-server-nuy1.onrender.com/alltasks',{headers:{accept:'application/json'}})
   
      const alltasks1 = await alltasks.json();
      alltasks1.map(task=>{
