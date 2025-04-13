@@ -27,7 +27,7 @@ server.listen(port,()=>{
 
 const io = new Server(server,{
   cors: {
-    origin: ["https://spacecc.onrender.com","http://localhost:8000/","http://localhost:5173","http://localhost:5174"], // Replace with your client URL
+    origin: ["https://space-8rdg.onrender.com","http://localhost:8000/","http://localhost:5173","http://localhost:5174"], // Replace with your client URL
     methods: ["GET", "POST"],
 },
 })
